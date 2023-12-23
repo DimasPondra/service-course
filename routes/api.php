@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,5 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('courses', [CourseController::class, 'index']);
-Route::post('courses', [CourseController::class, 'store']);
-Route::get('courses/{course}', [CourseController::class, 'show']);
-Route::patch('courses/{course}', [CourseController::class, 'update']);
+Route::apiResource('courses', CourseController::class)->except(['destroy']);
+Route::apiResource('chapters', ChapterController::class)->only(['index', 'store']);

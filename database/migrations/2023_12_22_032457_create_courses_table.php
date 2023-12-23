@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum("level", ["all-level", "beginner", "intermediate", "advance"]);
             $table->enum("status", ["draft", "published"])->default("draft");
             $table->decimal("price", 16,2);
-            $table->integer("thubmnail_file_id");
+            $table->integer("thumbnail_file_id");
             $table->integer("mentor_user_id");
 
             $table->timestamps();

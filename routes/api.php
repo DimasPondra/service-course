@@ -19,4 +19,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::get('courses', [CourseController::class, 'index']);
 Route::post('courses', [CourseController::class, 'store']);
+Route::get('courses/{course}', [CourseController::class, 'show']);

@@ -11,9 +11,7 @@ class RequestHelper
         }
 
         foreach (explode(',', $queryString) as $value) {
-            if ($value == $parameterValue) {
-                return true;
-            }
+            return $value == $parameterValue ? true : false;
         }
 
         return false;

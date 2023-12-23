@@ -17,16 +17,18 @@ class ChapterResourceCollection extends ResourceCollection
     {
         $data = [];
         $data = $this->collection->transform(function ($chapter) use ($request) {
-            return [
+            $result = [
                 'id' => $chapter->id,
                 'name' => $chapter->name,
                 'slug' => $chapter->slug,
-
-                'course' => $this->when(
-                    RequestHelper::doesQueryParamsHasValue($request->query('include'), 'course'),
-                    (new CourseResource($chapter->course))
-                )
             ];
+
+            $checkCourseRelation = RequestHelper::doesQueryParamsHasValue($request->query('include'), 'course');
+            if ($checkCourseRelation) {
+                $result['course'] = new CourseResource($chapter->course);
+            }
+
+            return $result;
         });
 
         return [

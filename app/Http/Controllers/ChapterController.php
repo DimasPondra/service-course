@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChapterStoreRequest;
+use App\Http\Requests\ChapterUpdateRequest;
+use App\Http\Resources\ChapterResource;
 use App\Http\Resources\ChapterResourceCollection;
 use App\Models\Chapter;
 use App\Repositories\ChapterRepository;
@@ -63,17 +65,43 @@ class ChapterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Chapter $chapter)
     {
-        //
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully get data.',
+            'data' => new ChapterResource($chapter)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ChapterUpdateRequest $request, Chapter $chapter)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $request->merge(['slug' => Str::slug($request->name)]);
+
+            $data = $request->only(['name', 'slug', 'course_id']);
+
+            $this->chapterRepository->save($chapter->fill($data));
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong, ' . $th->getMessage()
+            ], 500);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Chapter successfully updated.'
+        ], 200);
     }
 
     /**

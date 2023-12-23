@@ -21,4 +21,4 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::apiResource('courses', CourseController::class)->except(['destroy']);
-Route::apiResource('chapters', ChapterController::class)->only(['index', 'store']);
+Route::apiResource('chapters', ChapterController::class)->except(['destroy']);

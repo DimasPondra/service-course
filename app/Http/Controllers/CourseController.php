@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseStoreRequest;
+use App\Http\Requests\CourseUpdateRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
 use App\Models\Course;
@@ -87,9 +88,35 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CourseUpdateRequest $request, Course $course)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $request->merge(['slug' => Str::slug($request->name)]);
+
+            $data = $request->only([
+                'name', 'slug', 'description', 'type',
+                'certificate', 'level', 'status', 'price',
+                'thumbnail_file_id', 'mentor_user_id'
+            ]);
+
+            $this->courseRepository->save($course->fill($data));
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong, ' . $th->getMessage()
+            ], 500);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Course successfully updated.'
+        ], 200);
     }
 
     /**

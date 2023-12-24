@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('courses', CourseController::class)->except(['destroy']);
 Route::apiResource('chapters', ChapterController::class)->except(['destroy']);
+Route::apiResource('lessons', LessonController::class)->except(['destroy']);

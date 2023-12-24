@@ -4,6 +4,7 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseImageController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MyCourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,4 @@ Route::apiResource('courses', CourseController::class)->except(['destroy']);
 Route::apiResource('chapters', ChapterController::class)->except(['destroy']);
 Route::apiResource('lessons', LessonController::class)->except(['destroy']);
 Route::apiResource('course-images', CourseImageController::class)->only(['store', 'destroy']);
+Route::apiResource('my-courses', MyCourseController::class)->only(['index', 'store']);

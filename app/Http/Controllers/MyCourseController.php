@@ -42,6 +42,17 @@ class MyCourseController extends Controller
 
             $data = $request->only(['user_id', 'course_id']);
 
+            $check = MyCourse::where('user_id', $request->user_id)
+                                ->where('course_id', $request->course_id)
+                                ->first();
+
+            if ($check) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Data is duplicated and can't be processed."
+                ], 400);
+            }
+
             $myCourse = new MyCourse();
             $this->myCourseRepository->save($myCourse->fill($data));
 

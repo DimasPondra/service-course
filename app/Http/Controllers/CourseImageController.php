@@ -35,6 +35,17 @@ class CourseImageController extends Controller
 
             $data = $request->only(['file_id', 'course_id']);
 
+            $check = CourseImage::where('file_id', $request->file_id)
+                                ->where('course_id', $request->course_id)
+                                ->first();
+
+            if ($check) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Data is duplicated and can't be processed."
+                ], 400);
+            }
+
             $courseImage = new CourseImage();
             $this->courseImageRepository->save($courseImage->fill($data));
 

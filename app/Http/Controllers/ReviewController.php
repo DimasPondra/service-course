@@ -37,6 +37,17 @@ class ReviewController extends Controller
 
             $data = $request->only(['rate', 'note', 'user_id', 'course_id']);
 
+            $check = Review::where('user_id', $request->user_id)
+                                ->where('course_id', $request->course_id)
+                                ->first();
+
+            if ($check) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Data is duplicated and can't be processed."
+                ], 400);
+            }
+
             $review = new Review();
             $this->reviewRepository->save($review->fill($data));
 

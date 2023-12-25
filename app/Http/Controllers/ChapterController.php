@@ -24,9 +24,13 @@ class ChapterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $chapters = $this->chapterRepository->get();
+        $chapters = $this->chapterRepository->get([
+            'search' => [
+                'course_id' => $request->course_id
+            ]
+        ]);
 
         return new ChapterResourceCollection($chapters);
     }
@@ -107,8 +111,33 @@ class ChapterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Chapter $chapter)
     {
-        //
+        if ($chapter->lessons->count() >= 1) {
+            return response()->json([
+                'status' => 'error',
+                'message' => "Data can't be deleted as it has relationships."
+            ], 400);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $chapter->delete();
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong, ' . $th->getMessage()
+            ], 500);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Chapter successfully deleted.'
+        ], 200);
     }
 }

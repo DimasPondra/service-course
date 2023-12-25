@@ -15,7 +15,10 @@ class ChapterRepository
 
     public function get($params = [])
     {
-        $chapters = $this->model;
+        $chapters = $this->model
+            ->when(!empty($params['search']['course_id']), function ($query) use ($params) {
+                return $query->where('course_id', $params['search']['course_id']);
+            });
 
         return $chapters->get();
     }

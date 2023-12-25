@@ -24,9 +24,13 @@ class LessonController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lessons = $this->lessonRepository->get();
+        $lessons = $this->lessonRepository->get([
+            'search' => [
+                'chapter_id' => $request->chapter_id
+            ]
+        ]);
 
         return new LessonResourceCollection($lessons);
     }
@@ -107,8 +111,26 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Lesson $lesson)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $lesson->delete();
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong, ' . $th->getMessage()
+            ], 500);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Lesson successfully deleted.'
+        ], 200);
     }
 }

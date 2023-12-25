@@ -15,7 +15,10 @@ class LessonRepository
 
     public function get($params = [])
     {
-        $lessons = $this->model;
+        $lessons = $this->model
+            ->when(!empty($params['search']['chapter_id']), function ($query) use ($params) {
+                return $query->where('chapter_id', $params['search']['chapter_id']);
+            });
 
         return $lessons->get();
     }

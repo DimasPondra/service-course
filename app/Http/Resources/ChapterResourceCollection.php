@@ -28,6 +28,11 @@ class ChapterResourceCollection extends ResourceCollection
                 $result['course'] = new CourseResource($chapter->course);
             }
 
+            $checkLessonsRelation = RequestHelper::doesQueryParamsHasValue($request->query('include'), 'lessons');
+            if ($checkLessonsRelation) {
+                $result['lessons'] = (new LessonResourceCollection($chapter->lessons))->toArray($request)['data'];
+            }
+
             return $result;
         });
 

@@ -34,4 +34,18 @@ class Review extends Model
             get: fn () => $name
         );
     }
+
+    protected function userAvatarUrl(): Attribute
+    {
+        $user = ClientHelper::getUserByID($this->user_id);
+        $avatarUrl = null;
+
+        if ($user) {
+            $avatarUrl = $user['data']['avatar_file_id'];
+        }
+
+        return new Attribute(
+            get: fn () => $avatarUrl
+        );
+    }
 }

@@ -41,7 +41,7 @@ class Review extends Model
         $avatarUrl = null;
 
         if ($user) {
-            $avatarUrl = $user['data']['avatar_file_id'];
+            $avatarUrl = $user['data']['avatar_url'];
         }
 
         return new Attribute(

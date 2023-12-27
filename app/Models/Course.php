@@ -74,7 +74,7 @@ class Course extends Model
         $avatarUrl = null;
 
         if (!empty($mentor)) {
-            $avatarUrl = $mentor['data']['avatar_file_id'];
+            $avatarUrl = $mentor['data']['avatar_url'];
         }
 
         return new Attribute(

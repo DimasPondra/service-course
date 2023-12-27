@@ -22,6 +22,11 @@ class ChapterResource extends JsonResource
             'course' => $this->when(
                 RequestHelper::doesQueryParamsHasValue($request->query('include'), 'course'),
                 (new CourseResource($this->course))
+            ),
+
+            'lessons' => $this->when(
+                RequestHelper::doesQueryParamsHasValue($request->query('include'), 'lessons'),
+                (new LessonResourceCollection($this->lessons))->toArray($request)['data']
             )
         ];
     }

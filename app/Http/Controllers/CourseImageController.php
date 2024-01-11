@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseImageStoreRequest;
+use App\Http\Resources\CourseImageResource;
 use App\Models\CourseImage;
 use App\Repositories\CourseImageRepository;
 use Illuminate\Http\Request;
@@ -68,9 +69,13 @@ class CourseImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(CourseImage $courseImage)
     {
-        //
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully get data.',
+            'data' => new CourseImageResource($courseImage)
+        ]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewStoreRequest;
 use App\Http\Requests\ReviewUpdateRequest;
 use App\Http\Resources\ReviewResource;
+use App\Models\MyCourse;
 use App\Models\Review;
 use App\Repositories\ReviewRepository;
 use Illuminate\Http\Request;
@@ -36,6 +37,17 @@ class ReviewController extends Controller
             DB::beginTransaction();
 
             $data = $request->only(['rate', 'note', 'user_id', 'course_id']);
+
+            $allowReview = MyCourse::where('user_id', $request->user_id)
+                                    ->where('course_id', $request->course_id)
+                                    ->first();
+
+            if (empty($allowReview)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "You can't review this course."
+                ], 400);
+            }
 
             $check = Review::where('user_id', $request->user_id)
                                 ->where('course_id', $request->course_id)

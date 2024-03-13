@@ -28,5 +28,9 @@ Route::apiResource('courses', CourseController::class)->except(['destroy']);
 Route::apiResource('chapters', ChapterController::class);
 Route::apiResource('lessons', LessonController::class);
 Route::apiResource('course-images', CourseImageController::class)->only(['store', 'show', 'destroy']);
-Route::apiResource('my-courses', MyCourseController::class)->only(['index', 'store']);
 Route::apiResource('reviews', ReviewController::class)->except(['index']);
+
+Route::prefix('my-courses')->group(function () {
+    Route::get('/', [MyCourseController::class, 'index']);
+    Route::post('store', [MyCourseController::class, 'store']);
+});

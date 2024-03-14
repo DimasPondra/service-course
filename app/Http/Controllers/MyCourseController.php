@@ -72,27 +72,20 @@ class MyCourseController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function checkCourse(Request $request)
     {
-        //
-    }
+        $myCourse = MyCourse::where('course_id', $request->course_id)
+                            ->where('user_id', $request->user_id)
+                            ->first();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        $result = empty($myCourse) ? 'not joined' : 'joined';
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully get data.',
+            'data' => [
+                'result' => $result
+            ]
+        ]);
     }
 }

@@ -33,4 +33,5 @@ Route::apiResource('reviews', ReviewController::class)->except(['index']);
 Route::prefix('my-courses')->group(function () {
     Route::get('/', [MyCourseController::class, 'index']);
     Route::post('store', [MyCourseController::class, 'store']);
+    Route::get('check-course', [MyCourseController::class, 'checkCourse']);
 });

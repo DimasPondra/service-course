@@ -9,7 +9,8 @@ Service course adalah bagian dari sebuah microservice yang dibangun untuk membua
 
 ## Prasyarat
 - [GIT](https://www.git-scm.com/downloads)
-- [Node 20.14](https://nodejs.org/en/download/package-manager/current)
+- [PHP 8.1](https://www.php.net/downloads.php)
+- [Composer 2.x](https://getcomposer.org/download/)
 - [MySQL 8.0](https://dev.mysql.com/downloads/installer/)
 
 ## Teknologi yang Digunakan

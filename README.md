@@ -1,5 +1,5 @@
 # Service Course
-Service course adalah bagian dari sebuah microservice yang dibangun untuk membuat API aplikasi crowdfunding, pada service ini digunakan untuk menghandle segala sesuatu tentang course.
+Service course adalah bagian dari sebuah microservice yang dibangun untuk membuat API aplikasi belajar online (kelas digital), pada service ini digunakan untuk menghandle segala sesuatu tentang course.
 
 ## Daftar Isi
 1. [Prasyarat](#prasyarat)
@@ -80,7 +80,7 @@ php artisan key:generate
 
 Mulai server
 ```bash
-php artisan serve
+php artisan serve --port-8082
 ```
 
-Dengan mengikuti langkah-langkah di atas, Anda akan dapat menjalankan Service course dimana service tersebut bagian dari crowdfunding microservice.
+Dengan mengikuti langkah-langkah di atas, Anda akan dapat menjalankan Service course dimana service tersebut bagian dari aplikasi belajar online (kelas digital) microservice.
